@@ -18,8 +18,8 @@ function Contact() {
       setEmail('');
       setMessage('');
 
-      const emaildata = { name: name, email: email, username: name, file: message };
-      await axios.post('http://pain2.servebbs.org/WebService.asmx/NewSendEmail', emaildata);
+    const emaildata = { Phone: name, Email: email, Date: message };
+      await axios.post('https://selfcare.servebbs.org/WebService/WebService1.asmx/SendEmail', emaildata);
       
       setSubmitted(true);
 

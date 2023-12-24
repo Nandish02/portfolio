@@ -13,6 +13,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
+    "react-google-forms-hooks": "^1.2.4",
     "react-icons": "^4.10.1",
     "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^6.14.0",

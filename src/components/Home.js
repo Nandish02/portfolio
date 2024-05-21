@@ -58,7 +58,7 @@ function Home() {
               </p>
               <div style={{ marginTop: '1rem' }}>
                 <a
-                  href='https:\\github.com\Nandish02\portfolio\src\Images\Nandish_Chokshi-Resume.pdf'
+                  href='https://github.com/Nandish02/portfolio/blob/master/src/Images/Nandish_Chokshi-Resume.pdf'
                   className='transition-all duration-200 border-seashell border hover:border-opacity-0 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-opacity-10 hover:text-xl'
                   target='_blank'
                   rel='noopener noreferrer'

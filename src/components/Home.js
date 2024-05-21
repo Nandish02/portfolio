@@ -50,24 +50,23 @@ function Home() {
               </div>
             </div>
             <div>
-  <p style={{ fontWeight: 'semi-bold' }}>
-    I am a Computer Science student at BITS Goa. An aspiring software engineer and enthusiastic student with a love for coding and problem-solving. Eager to learn and apply new technologies to create innovative solutions.
-  </p>
-  <p style={{ marginTop: '0rem', fontWeight: 'semi-bold' }}>
-    Let's connect and explore opportunities together!
-  </p>
-  <div style={{ marginTop: '1rem' }}>
-    <a
-      href='/resume'
-      className='transition-all duration-200 border-seashell border hover:border-opacity-0 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-opacity-10 hover:text-xl'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      Resume
-    </a>
-  </div>
-</div>
-
+              <p style={{ fontWeight: 'semi-bold' }}>
+                I am a Computer Science student at BITS Goa. An aspiring software engineer and enthusiastic student with a love for coding and problem-solving. Eager to learn and apply new technologies to create innovative solutions.
+              </p>
+              <p style={{ marginTop: '0rem', fontWeight: 'semi-bold' }}>
+                Let's connect and explore opportunities together!
+              </p>
+              <div style={{ marginTop: '1rem' }}>
+                <a
+                  href='https:\\github.com\Nandish02\portfolio\src\Images\Nandish_Chokshi-Resume.pdf'
+                  className='transition-all duration-200 border-seashell border hover:border-opacity-0 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-opacity-10 hover:text-xl'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Resume
+                </a>
+              </div>
+            </div>
           </div>
           <hr className='max-w-[1000px] mx-auto border-t-2 border-gray-500 my-8' />
         </div>

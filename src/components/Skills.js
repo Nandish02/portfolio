@@ -1,74 +1,124 @@
-import React from 'react';
-import { FaReact, FaJs, FaNode, FaCuttlefish } from 'react-icons/fa';
-import { SiCplusplus, SiPowerbi, SiTailwindcss } from 'react-icons/si';
+import React, { useRef } from 'react';
+import { FaReact, FaJs, FaNode, FaPython, FaDocker, FaGitAlt } from 'react-icons/fa';
+import {
+  SiCplusplus,
+  SiTailwindcss,
+  SiMysql,
+  SiPytorch,
+  SiScikitlearn,
+  SiExpress,
+  SiNumpy,
+  SiPandas,
+  SiGo,
+} from 'react-icons/si';
 import { BsBraces } from 'react-icons/bs';
-import { GrMysql } from 'react-icons/gr';
+import useOnScreen from '../useOnScreen';
+
+const categories = [
+  {
+    title: 'Languages',
+    color: 'from-accent-purple to-accent-pink',
+    skills: [
+      { icon: FaPython, name: 'Python', color: '#34d399' },
+      { icon: SiCplusplus, name: 'C++', color: '#a78bfa' },
+      { icon: FaJs, name: 'JavaScript', color: '#facc15' },
+      { icon: SiGo, name: 'Go', color: '#22d3ee' },
+    ],
+  },
+  {
+    title: 'AI / ML',
+    color: 'from-accent-pink to-accent-blue',
+    skills: [
+      { icon: SiPytorch, name: 'PyTorch', color: '#f97316' },
+      { icon: SiScikitlearn, name: 'Scikit-learn', color: '#60a5fa' },
+      { icon: SiNumpy, name: 'NumPy', color: '#22d3ee' },
+      { icon: SiPandas, name: 'Pandas', color: '#a78bfa' },
+    ],
+  },
+  {
+    title: 'Web & Backend',
+    color: 'from-accent-blue to-accent-cyan',
+    skills: [
+      { icon: FaReact, name: 'React', color: '#60a5fa' },
+      { icon: FaNode, name: 'Node.js', color: '#34d399' },
+      { icon: SiExpress, name: 'Express.js', color: '#a3a3a3' },
+      { icon: SiTailwindcss, name: 'Tailwind CSS', color: '#22d3ee' },
+      { icon: BsBraces, name: 'REST APIs', color: '#f97316' },
+    ],
+  },
+  {
+    title: 'DevOps & Data',
+    color: 'from-accent-cyan to-accent-emerald',
+    skills: [
+      { icon: SiMysql, name: 'MySQL', color: '#22d3ee' },
+      { icon: FaDocker, name: 'Docker', color: '#60a5fa' },
+      { icon: FaGitAlt, name: 'Git', color: '#f97316' },
+    ],
+  },
+];
+
+const SkillCard = ({ icon: Icon, name, color, delay }) => (
+  <div
+    className="group flex flex-col items-center gap-3 p-5 rounded-2xl glass glass-hover transition-all duration-500 hover:scale-105 hover:-translate-y-1 opacity-0 animate-fade-in-up"
+    style={{ animationDelay: `${delay}ms`, animationFillMode: 'forwards' }}
+  >
+    <div
+      className="w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6"
+      style={{ backgroundColor: `${color}15` }}
+    >
+      <Icon className="text-3xl transition-colors duration-300" style={{ color }} />
+    </div>
+    <span className="text-sm font-medium text-gray-400 group-hover:text-gray-200 transition-colors">
+      {name}
+    </span>
+  </div>
+);
 
 const Skills = () => {
+  const ref = useRef(null);
+  const visible = useOnScreen(ref);
+
   return (
-    <div name='skills' className='flex justify-center items-center w-full h-screen bg-[#0a192f] text-gray-300'>
-      <div className='max-w-[1000px] mx-auto p-4 flex flex-col justify-center items-center w-full'>
-        <div className='text-center'>
-          <p className='text-4xl font-bold inline border-b-4 border-pink-600 mt-0'>SKILLSET</p>
+    <section className="relative py-24 md:py-32">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-accent-blue/[0.04] blur-[150px] pointer-events-none" />
+
+      <div ref={ref} className="max-w-5xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase text-accent-cyan glass mb-4">
+            Technical Toolkit
+          </span>
+          <h2 className="section-heading">
+            My <span className="gradient-text">Skillset</span>
+          </h2>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-8 mt-8 justify-center items-left'>
-          <div className='col-span-1 md:col-span-1 flex flex-col items-center justify-center'>
-            <p className='text-2xl font-bold mt-6'>Tools</p>
-            <div className='flex flex-row justify-center items-center space-x-8'>
-              <div className='flex flex-col items-center justify-center'>
-                <FaReact className='text-6xl text-blue-500 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>React</p>
+        {visible && (
+          <div className="space-y-12">
+            {categories.map((cat, ci) => (
+              <div key={cat.title}>
+                <div className="flex items-center gap-3 mb-6">
+                  <div
+                    className={`w-1 h-6 rounded-full bg-gradient-to-b ${cat.color}`}
+                  />
+                  <h3 className="font-heading text-xl font-semibold text-gray-300">
+                    {cat.title}
+                  </h3>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {cat.skills.map((skill, si) => (
+                    <SkillCard
+                      key={skill.name}
+                      {...skill}
+                      delay={ci * 150 + si * 80}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className='flex flex-col items-center justify-center'>
-                <SiTailwindcss className='text-6xl text-blue-400 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>Tailwind CSS</p>
-              </div>
-              <div className='flex flex-col items-center justify-center'>
-                <FaNode className='text-6xl text-green-500 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>Node.js</p>
-              </div>
-            </div>
-            <div className='flex flex-row justify-start items-center mt-4'> {/* Modified */}
-              <div className='flex flex-col items-center justify-center'>
-                <SiPowerbi className='text-6xl text-yellow-300 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity mr-4'>PowerBI</p>
-              </div>
-              <div className='flex flex-col items-center justify-center'>
-                <BsBraces className='text-6xl text-orange-500 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>REST Api</p>
-              </div>
-            </div>
+            ))}
           </div>
-
-          <div className='col-span-1 md:col-span-1 flex flex-col items-center justify-center'>
-            <p className='text-2xl font-bold mt-2'>Languages</p>
-            <div className='flex flex-row justify-center items-center space-x-8'>
-              <div className='flex flex-col items-center justify-center'>
-                <SiCplusplus className='text-6xl text-purple-500 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>C++</p>
-              </div>
-              <div className='flex flex-col items-center justify-center'>
-                <FaCuttlefish className='text-6xl text-blue-300 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>C</p>
-              </div>
-              <div className='flex flex-col items-center justify-center'>
-                <FaJs className='text-6xl text-yellow-500 transition-transform transform hover:scale-110 cursor-pointer' />
-                <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>JavaScript</p>
-              </div>
-            </div>
-          </div>
-
-          <div className='col-span-1 md:col-span-1 flex flex-col items-center justify-center'>
-            <p className='text-2xl font-bold mt-2'>Database</p>
-            <div className='flex flex-col items-center justify-center'>
-              <GrMysql className='text-6xl' style={{ color: '#00758F' }} />
-              <p className='text-base font-bold mt-2 group-hover:opacity-100 transition-opacity'>MySQL</p>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 

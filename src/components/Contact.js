@@ -55,7 +55,7 @@ function Contact() {
     setStatus('sending');
 
     try {
-      const res = await fetch('https://formsubmit.co/ajax/nandishchokshi02@gmail.com', {
+      const res = await fetch('https://formsubmit.co/ajax/979622a9828a72a269004c71ea33d4b5', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

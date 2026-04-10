@@ -92,7 +92,7 @@ const ExperienceCard = ({ exp, index }) => {
 
       {/* Card */}
       <div
-        className={`flex-1 pb-12 transition-all duration-700 ${
+        className={`flex-1 min-w-0 pb-12 transition-all duration-700 ${
           visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
         }`}
         style={{ transitionDelay: `${index * 150}ms` }}

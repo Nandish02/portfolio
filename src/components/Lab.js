@@ -44,7 +44,7 @@ const TIERS = [
     label: 'Opus',
     desc: 'Highest quality',
     claudeId: 'claude-opus-4-20250514',
-    backedBy: 'nemotron-super-49b (reasoning)',
+    backedBy: 'gpt-oss-120b · cutoff Jun 2024',
     accent: 'purple',
   },
   {
@@ -52,7 +52,7 @@ const TIERS = [
     label: 'Sonnet',
     desc: 'Balanced (default)',
     claudeId: 'claude-sonnet-4-20250514',
-    backedBy: 'nemotron-3-super-120b',
+    backedBy: 'nemotron-3-super-120b · cutoff Jun 2024',
     accent: 'blue',
   },
   {
@@ -60,10 +60,27 @@ const TIERS = [
     label: 'Haiku',
     desc: 'Fastest',
     claudeId: 'claude-3-5-haiku-20241022',
-    backedBy: 'nemotron-mini-4b',
+    backedBy: 'llama-3.2-3b · cutoff Dec 2023',
     accent: 'emerald',
   },
 ];
+
+function buildSystemPrompt() {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  return [
+    `You are a helpful assistant running through a local free-claude-code proxy.`,
+    `Today's real-world date is ${dateStr}.`,
+    `Your underlying training data ended in 2024; you do not have web access. When the user asks about events, prices, listings, or anything beyond your cutoff, say so honestly and offer to help in a structural way (templates, frameworks, search strategies) instead of pretending an older year is current.`,
+    `Never say "it is currently 2023" or any earlier year. Use the date above as ground truth for "now".`,
+    `Keep replies concise unless asked to expand.`,
+  ].join(' ');
+}
 
 const TIER_BTN_STYLES = {
   purple: {
@@ -273,6 +290,7 @@ export default function Lab() {
           model: activeTier.claudeId,
           max_tokens: 8192,
           stream: true,
+          system: buildSystemPrompt(),
           messages: next.map((m) => ({ role: m.role, content: m.content })),
         }),
         signal: controller.signal,

@@ -183,6 +183,7 @@ export default function Lab() {
   const [status, setStatus] = useState('checking');
   const [latencyMs, setLatencyMs] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [showAdminEmbed, setShowAdminEmbed] = useState(false);
 
   const [history, setHistory] = useState(() => {
     try {
@@ -233,13 +234,15 @@ export default function Lab() {
 
   useEffect(() => {
     checkStatus();
-    const id = setInterval(checkStatus, 8000);
+    const id = setInterval(() => {
+      if (!document.hidden) checkStatus();
+    }, 30000);
     return () => clearInterval(id);
   }, [checkStatus]);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [history, sending]);
+    chatEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+  }, [history.length]);
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
@@ -511,37 +514,57 @@ export default function Lab() {
         </section>
 
         <section className="mb-6">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
             <h2 className="flex items-center gap-2 text-lg font-heading font-semibold">
               <FiPower className="w-4 h-4 text-accent-purple" />
               Admin UI
+              <span className="text-xs font-mono text-white/40 font-normal ml-1">(provider keys, model overrides)</span>
             </h2>
-            <a
-              href={adminUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-white/70 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-lg transition"
-            >
-              Open in new tab <FiExternalLink className="w-3.5 h-3.5" />
-            </a>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowAdminEmbed((v) => !v)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-white/70 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-lg transition"
+                title={showAdminEmbed ? 'Hide embedded admin' : 'Embed admin UI inline (note: it polls every ~2s)'}
+              >
+                {showAdminEmbed ? 'Hide inline' : 'Embed inline'}
+              </button>
+              <a
+                href={adminUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-accent-cyan bg-accent-blue/15 hover:bg-accent-blue/25 border border-accent-blue/30 rounded-lg transition"
+              >
+                Open in new tab <FiExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
-          <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden">
-            {status === 'online' || status === 'cors' ? (
-              <iframe
-                title="fcc admin"
-                src={adminUrl}
-                className="w-full h-[520px] bg-white"
-                sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-              />
-            ) : (
-              <div className="h-[260px] flex items-center justify-center text-white/40 text-sm font-mono">
-                Admin UI will load once your local proxy is online.
+          {showAdminEmbed ? (
+            <>
+              <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden">
+                {status === 'online' || status === 'cors' ? (
+                  <iframe
+                    title="fcc admin"
+                    src={adminUrl}
+                    className="w-full h-[520px] bg-white"
+                    sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+                  />
+                ) : (
+                  <div className="h-[260px] flex items-center justify-center text-white/40 text-sm font-mono">
+                    Admin UI will load once your local proxy is online.
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <p className="mt-2 text-xs text-white/40 font-mono">
-            If the iframe stays blank, the proxy may send <code>X-Frame-Options: DENY</code>. Use "Open in new tab".
-          </p>
+              <p className="mt-2 text-xs text-white/40 font-mono">
+                Heads up: this admin UI polls itself every ~2 seconds, which is why it constantly shows loading spinners. If it's distracting, click "Hide inline".
+              </p>
+            </>
+          ) : (
+            <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 flex items-center justify-between gap-3">
+              <p className="text-xs font-mono text-white/50">
+                Hidden by default (admin polls itself constantly and makes the page twitchy). Open it in a new tab for a stable view, or embed it inline only when you need to change config.
+              </p>
+            </div>
+          )}
         </section>
 
         <section className="mb-12">

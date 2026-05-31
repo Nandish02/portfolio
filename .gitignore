@@ -21,3 +21,20 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# --- jobs/ Python pipeline ---
+jobs/.env
+jobs/.env.*
+!jobs/.env.example
+jobs/.venv/
+jobs/**/__pycache__/
+jobs/**/*.pyc
+jobs/.pytest_cache/
+jobs/.ruff_cache/
+jobs/.mypy_cache/
+
+# scraped + generated data — never commit
+jobs/data/
+jobs/**/*.db
+jobs/**/*.sqlite
+jobs/**/*.sqlite3

@@ -1,0 +1,398 @@
+# Nandish — internship search preferences
+
+candidate:
+  name: Nandish Chokshi
+  school: University of Illinois Urbana-Champaign
+  program: Master of Computer Science
+  graduation: May 2028
+  needs_sponsorship: true   # F-1 OPT/CPT now, H-1B later
+  current_status: F-1 student
+  one_line: "MCS @ UIUC, Aug 2026 start, 1y SDE at Nutanix on distributed in-memory DBs (Go/Python/gRPC/K8s), needs H-1B sponsorship"
+
+locations:
+  # USA-wide. Any of these match. Empty list = no location filter.
+  allowed_keywords:
+    - united states
+    - usa
+    - us
+    - remote
+    - "remote-us"
+    - "remote, us"
+    - " us)"
+    - " us "
+    - new york
+    - "ny,"
+    - san francisco
+    - bay area
+    - seattle
+    - "wa,"
+    - "ca,"
+    - boston
+    - "ma,"
+    - austin
+    - "tx,"
+    - chicago
+    - "il,"
+    - los angeles
+    - san jose
+    - sunnyvale
+    - palo alto
+    - mountain view
+    - redmond
+    - cupertino
+    - menlo park
+    - bellevue
+    - "denver"
+    - "atlanta"
+    - "raleigh"
+    - "durham"
+    - "pittsburgh"
+    - "phoenix"
+    - "champaign"
+    - "urbana"
+  blocked_keywords:
+    - india
+    - bangalore
+    - bengaluru
+    - hyderabad
+    - delhi
+    - mumbai
+    - chennai
+    - pune
+    - ahmedabad
+    - europe
+    - london
+    - berlin
+    - paris
+    - dublin
+    - amsterdam
+    - madrid
+    - barcelona
+    - milan
+    - munich
+    - lisbon
+    - warsaw
+    - prague
+    - bucharest
+    - sofia
+    - athens
+    - vienna
+    - zurich
+    - geneva
+    - stockholm
+    - oslo
+    - helsinki
+    - copenhagen
+    - tel aviv
+    - jerusalem
+    - dubai
+    - abu dhabi
+    - riyadh
+    - cairo
+    - china
+    - shanghai
+    - beijing
+    - shenzhen
+    - hong kong
+    - taiwan
+    - taipei
+    - singapore
+    - tokyo
+    - osaka
+    - kyoto
+    - korea
+    - seoul
+    - canada
+    - toronto
+    - vancouver
+    - montreal
+    - calgary
+    - mexico
+    - brazil
+    - sao paulo
+    - argentina
+    - chile
+    - australia
+    - sydney
+    - melbourne
+    - new zealand
+    - auckland
+    - johannesburg
+    - lagos
+    - nigeria
+    - kenya
+    - manila
+    - jakarta
+    - bangkok
+    - vietnam
+    - hanoi
+
+titles:
+  # Title patterns — case-insensitive substring
+  must_match_any:
+    - intern
+    - internship
+    - summer 2027
+    - "co-op"
+    - coop
+  # If true, the title must also match a tech/SWE/data keyword (drops HR / marketing /
+  # sales / law / consulting intern roles before AI scoring → saves API cost).
+  require_tech_relevant: true
+
+# Season targeting — push Summer 2027 to the top; downrank older seasons.
+season:
+  target: "summer 2027"
+  accept_explicit:
+    - "summer 2027"
+    - "summer'27"
+    - "summer 27"
+    - "sum 27"
+    - "su27"
+    - "may 2027"
+    - "june 2027"
+    - "july 2027"
+    - "aug 2027"
+    - "2027 intern"
+    - "intern 2027"
+    - "futureforce summer 2027"
+  reject_explicit:
+    # if the JD/title clearly says ONLY these seasons, drop the row
+    - "summer 2024"
+    - "summer 2025"
+    - "fall 2024"
+    - "fall 2025"
+    - "spring 2025"
+    - "spring 2026"
+    - "winter 2025"
+    - "winter 2026"
+  # Accept-by-default for ambiguous postings (most "Software Engineer Intern" with no year)
+  accept_if_ambiguous: true
+  must_not_match_any:
+    - phd intern only
+    - graduate research only
+    - clearance required
+    - top secret
+    - "ts/sci"
+    - manager
+    - director
+    - principal
+    # trades / non-SWE intern roles
+    - electrician
+    - plumber
+    - hvac
+    - welder
+    - mechanic apprentice
+    - carpenter
+    - construction
+    - warehouse
+    - delivery
+    - driver
+    - sales development intern
+    - sales intern
+    - marketing intern
+    - hr intern
+    - "people, intern"
+    - operations apprentice
+
+target_levels:
+  - intern
+  - summer intern
+  - software engineer intern
+  - swe intern
+  - "intern (summer 2027)"
+
+freshness:
+  days: 21          # ignore postings older than this
+
+salary_floor_hourly_usd: 0   # no floor; surface everything
+
+sponsorship:
+  filter_mode: strict        # strict | lenient | off
+  # strict: hard-drop rows with explicit "no sponsorship" language
+  # lenient: keep but flag in the Sponsorship column
+  no_sponsorship_phrases:
+    - "no visa sponsorship"
+    - "not provide sponsorship"
+    - "not able to sponsor"
+    - "unable to sponsor"
+    - "do not sponsor"
+    - "us citizens only"
+    - "u.s. citizens only"
+    - "us persons only"
+    - "must be a us citizen"
+    - "must be a u.s. citizen"
+    - "must be authorized to work in the us without sponsorship"
+    - "must be authorized to work in the united states without sponsorship"
+    - "without sponsorship"
+    - "requires us citizenship"
+    - "requires u.s. citizenship"
+    - "active security clearance"
+    - "secret clearance"
+    - "top secret clearance"
+    - "ts/sci clearance"
+  # Companies known to sponsor H-1B reliably (FAANG, top tier startups). Used to default the Sponsorship column to "Yes".
+  known_sponsors:
+    - google
+    - alphabet
+    - meta
+    - facebook
+    - apple
+    - amazon
+    - microsoft
+    - nvidia
+    - openai
+    - anthropic
+    - stripe
+    - databricks
+    - snowflake
+    - palantir
+    - airbnb
+    - uber
+    - lyft
+    - pinterest
+    - linkedin
+    - salesforce
+    - oracle
+    - adobe
+    - intel
+    - amd
+    - ibm
+    - cisco
+    - vmware
+    - servicenow
+    - workday
+    - intuit
+    - paypal
+    - block
+    - square
+    - shopify
+    - twilio
+    - cloudflare
+    - hubspot
+    - atlassian
+    - splunk
+    - mongodb
+    - elastic
+    - confluent
+    - redis
+    - github
+    - gitlab
+    - figma
+    - notion
+    - linear
+    - vercel
+    - netlify
+    - retool
+    - ramp
+    - brex
+    - mercury
+    - plaid
+    - chime
+    - robinhood
+    - coinbase
+    - kraken
+    - reddit
+    - discord
+    - twitch
+    - spotify
+    - netflix
+    - hulu
+    - disney
+    - roblox
+    - epic games
+    - electronic arts
+    - unity
+    - nutanix
+    - rubrik
+    - cohesity
+    - "datadog"
+    - "doordash"
+    - "instacart"
+    - "asana"
+    - "dropbox"
+    - "box"
+    - "zoom"
+    - "okta"
+    - "snowflake"
+    - "scale ai"
+    - "scale"
+    - "anduril"
+    - "applied intuition"
+    - "rivian"
+    - "tesla"
+  # Defense / government / clearance-required — usually do NOT sponsor international students
+  known_blockers:
+    - lockheed
+    - raytheon
+    - northrop
+    - boeing defense
+    - general dynamics
+    - palantir gov
+    - leidos
+    - saic
+    - booz allen
+    - kbr
+    - mantech
+    - peraton
+    - parsons
+    - caci
+    - government
+
+keywords_boost:
+  # Skills that match Nandish's resume; AI scorer weights matches here.
+  strong:
+    - golang
+    - "go "
+    - distributed systems
+    - kubernetes
+    - docker
+    - grpc
+    - python
+    - "c++"
+    - mysql
+    - pytorch
+    - tensorflow
+    - rbac
+    - microservices
+    - "in-memory database"
+    - "time-series"
+    - infrastructure
+    - backend
+    - systems
+    - platform
+    - cloud
+    - databases
+    - "machine learning infrastructure"
+    - mlops
+    - "llm"
+    - agents
+  good:
+    - rust
+    - kafka
+    - spark
+    - postgres
+    - redis
+    - elasticsearch
+    - terraform
+    - aws
+    - gcp
+    - "system design"
+    - observability
+
+sources:
+  enabled:
+    github_repos: true
+    greenhouse: true
+    lever: true
+    ashby: true
+    hn_hiring: true
+    workday: true
+    smartrecruiters: true
+    # WAAS gates listings behind login now; off until we add a backup endpoint.
+    workatastartup: false
+    # LinkedIn guest API works but is rate-sensitive — enable once you've tested.
+    linkedin_guest: false
+    google_careers: true
+    remoteok: true
+    remotive: true
+    weworkremotely: true

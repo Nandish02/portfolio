@@ -16,7 +16,7 @@ import {
   FiXCircle,
   FiZap,
 } from 'react-icons/fi';
-import ParticleCanvas from './ParticleCanvas';
+
 
 const LS_KEYS = {
   proxyUrl: 'fcc.proxyUrl',
@@ -417,9 +417,7 @@ export default function Lab() {
 
   return (
     <div className="min-h-screen bg-navy-900 text-white relative">
-      <ParticleCanvas />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <header className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-blue/30 to-accent-purple/30 border border-white/10 flex items-center justify-center">

@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
-import { FaBriefcase, FaGraduationCap, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaChalkboardTeacher, FaExternalLinkAlt } from 'react-icons/fa';
 import nutanixLogo from '../Images/nutanix-logo.png';
 import aiiscLogo from '../Images/aiisc-logo.png';
 import useOnScreen from '../useOnScreen';
+
+const BITS_LOGO_URL = 'https://upload.wikimedia.org/wikipedia/en/d/d3/BITS_Pilani-Logo.svg';
 
 const experiences = [
   {
@@ -11,30 +13,10 @@ const experiences = [
     logo: nutanixLogo,
     logoBg: '#24135f',
     icon: FaBriefcase,
-    color: '#818cf8',
+    color: '#4F46E5',
     roles: [
-      {
-        title: 'Member of Technical Staff 1 (MTS-1)',
-        period: 'Jul 2025 — Present',
-        location: 'Bengaluru, India',
-        highlights: [
-          'Designing and developing horizontally scalable control-plane services for Nutanix\'s hyper-converged infrastructure (HCI) platform',
-          'Building next-generation v4 REST APIs for Prism Central, enabling unified management of VM lifecycle, cluster operations, and data protection across multi-cloud environments',
-          'Improving observability and telemetry pipelines to monitor distributed AOS clusters at scale, reducing mean-time-to-detect for platform anomalies',
-          'Collaborating with cross-functional teams on AHV hypervisor integrations and performance-critical storage I/O paths',
-        ],
-      },
-      {
-        title: 'Member of Technical Staff (Intern)',
-        period: 'Aug 2024 — Jun 2025',
-        location: 'Bengaluru, India',
-        highlights: [
-          'Contributed to the Prism platform team, developing scalable backend services powering cluster management and infrastructure orchestration',
-          'Implemented API migration workflows from legacy v2/v3 endpoints to the standardized v4 API framework, improving developer experience and schema consistency',
-          'Optimized distributed storage layer interactions for Controller VM (CVM) operations, enhancing data locality and replication performance',
-          'Participated in on-call rotations and incident response for enterprise-grade SLA-bound cloud infrastructure',
-        ],
-      },
+      { title: 'Member of Technical Staff 1 (MTS-1)', period: 'Jul 2025 — Jul 2026', location: 'Bengaluru, India' },
+      { title: 'Member of Technical Staff (Intern)', period: 'Aug 2024 — Jun 2025', location: 'Bengaluru, India' },
     ],
     tags: ['Go', 'Python', 'Distributed Systems', 'Prism Central', 'AHV', 'AOS', 'REST APIs', 'Kubernetes', 'Docker'],
   },
@@ -44,21 +26,23 @@ const experiences = [
     logo: aiiscLogo,
     logoBg: '#73000a',
     icon: FaGraduationCap,
-    color: '#a78bfa',
+    color: '#7C3AED',
     roles: [
-      {
-        title: 'Research Intern — AI/ML',
-        period: 'Jan 2024 — Aug 2024',
-        location: 'Columbia, SC (Remote)',
-        highlights: [
-          'Engineered unsupervised clustering pipelines on 8M+ cognitive data points to map hierarchical relationships between abstract concepts',
-          'Co-authored abstract "A Hierarchical Categorical Structure of Abstract Concepts" — accepted for poster presentation at SNL\'2024 (Society for the Neurobiology of Language)',
-          'Analyzed activations across 12 transformer hidden layers to predict fMRI brain responses to four distinct narrative stimuli using ridge regression',
-          'Built 3D neural activation visualization pipelines, revealing language-related activation patterns across cortical and subcortical brain structures',
-        ],
-      },
+      { title: 'Research Intern — AI/ML', period: 'Jan 2024 — Aug 2024', location: 'Columbia, SC (Remote)' },
     ],
     tags: ['NLP', 'Transformers', 'fMRI', 'PyTorch', 'Scikit-learn', 'Unsupervised Learning', 'GPT-2'],
+  },
+  {
+    company: 'BITS Pilani, Goa Campus',
+    website: 'https://www.bits-pilani.ac.in/goa/',
+    logo: BITS_LOGO_URL,
+    logoBg: '#ffffff',
+    icon: FaChalkboardTeacher,
+    color: '#0284C7',
+    roles: [
+      { title: 'Teaching Assistant — Computer Architecture & Database Systems', period: 'Jan 2024 — May 2024', location: 'Goa, India' },
+    ],
+    tags: null,
   },
 ];
 
@@ -71,56 +55,62 @@ const ExperienceCard = ({ exp, index }) => {
       {/* Timeline connector */}
       <div className="flex flex-col items-center">
         <div
-          className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-700 ${
+          className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-700 ${
             visible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
           }`}
-          style={{ backgroundColor: `${exp.color}18`, border: `1px solid ${exp.color}30` }}
+          style={{
+            backgroundColor: `${exp.color}10`,
+            border: `1px solid ${exp.color}25`,
+            transitionDelay: `${index * 200}ms`,
+          }}
         >
           <exp.icon size={18} style={{ color: exp.color }} />
+          <span
+            className={`absolute inset-0 rounded-xl ${visible ? 'timeline-pulse' : ''}`}
+            style={{ color: `${exp.color}40` }}
+          />
         </div>
         {index < experiences.length - 1 && (
           <div
-            className={`w-px flex-1 transition-all duration-1000 ${
-              visible ? 'opacity-100' : 'opacity-0'
-            }`}
+            className="w-px flex-1 origin-top transition-all duration-1000"
             style={{
-              background: `linear-gradient(to bottom, ${exp.color}40, transparent)`,
+              background: `linear-gradient(to bottom, ${exp.color}30, transparent)`,
+              transform: visible ? 'scaleY(1)' : 'scaleY(0)',
+              transitionDelay: `${index * 200 + 300}ms`,
             }}
           />
         )}
       </div>
 
-      {/* Card */}
+      {/* Card with blur-to-sharp reveal */}
       <div
-        className={`flex-1 min-w-0 pb-12 transition-all duration-700 ${
-          visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-        }`}
-        style={{ transitionDelay: `${index * 150}ms` }}
+        className={`flex-1 min-w-0 pb-12 ${visible ? 'animate-blur-reveal' : 'opacity-0'}`}
+        style={{ animationDelay: `${index * 200 + 100}ms` }}
       >
-        <div className="group rounded-2xl glass glass-hover transition-all duration-500 hover:-translate-y-1 overflow-hidden">
+        <div className="group card card-hover overflow-hidden">
           <div className="p-6">
             {/* Company header */}
             <div className="flex items-center gap-3 mb-5">
               <div
-                className="w-11 h-11 rounded-lg flex items-center justify-center p-1.5 shrink-0"
+                className="w-11 h-11 rounded-lg flex items-center justify-center p-1.5 shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
                 style={{ backgroundColor: exp.logoBg }}
               >
-                <img
-                  src={exp.logo}
-                  alt={exp.company}
-                  className="w-full h-full object-contain"
-                />
+                {exp.logo ? (
+                  <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
+                ) : (
+                  <exp.icon size={20} className="text-white" />
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-heading font-bold text-white text-lg leading-tight truncate">
+                  <h3 className="font-heading font-bold text-foreground text-lg leading-tight truncate">
                     {exp.company}
                   </h3>
                   <a
                     href={exp.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-accent-blue transition-colors shrink-0"
+                    className="text-muted-foreground hover:text-accent hover:rotate-12 transition-all duration-300 shrink-0"
                     aria-label={`Visit ${exp.company}`}
                   >
                     <FaExternalLinkAlt size={12} />
@@ -129,72 +119,54 @@ const ExperienceCard = ({ exp, index }) => {
               </div>
             </div>
 
-            {/* Roles within the company */}
-            <div className="space-y-6">
+            {/* Roles */}
+            <div className="space-y-5">
               {exp.roles.map((role, ri) => (
-                <div key={ri} className="relative">
-                  {/* Role connector for multi-role cards */}
-                  {exp.roles.length > 1 && (
-                    <div className="absolute -left-4 sm:-left-[21px] top-0 bottom-0 flex flex-col items-center">
-                      <div
-                        className="w-2 h-2 rounded-full shrink-0 mt-2"
-                        style={{ backgroundColor: exp.color }}
-                      />
-                      {ri < exp.roles.length - 1 && (
-                        <div
-                          className="w-px flex-1"
-                          style={{ backgroundColor: `${exp.color}25` }}
-                        />
-                      )}
-                    </div>
-                  )}
-
+                <div key={ri} className="flex gap-3 items-start">
+                  <div
+                    className="w-2 h-2 rounded-full shrink-0 mt-[7px]"
+                    style={{
+                      backgroundColor: exp.color,
+                      boxShadow: visible ? `0 0 8px ${exp.color}40` : 'none',
+                    }}
+                  />
                   <div>
-                    <h4 className="font-heading font-semibold text-gray-200 text-sm sm:text-[15px] mb-1">
+                    <h4 className="font-heading font-semibold text-foreground text-sm sm:text-[15px] mb-1">
                       {role.title}
                     </h4>
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-500 mb-3">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
                       <span>{role.period}</span>
-                      <span className="hidden sm:block w-1 h-1 rounded-full bg-gray-600" />
+                      <span className="hidden sm:block w-1 h-1 rounded-full bg-border" />
                       <span>{role.location}</span>
                     </div>
-
-                    <ul className="space-y-2">
-                      {role.highlights.map((h, i) => (
-                        <li key={i} className="flex gap-2.5 text-sm text-gray-400 leading-relaxed">
-                          <span
-                            className="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]"
-                            style={{ backgroundColor: `${exp.color}80` }}
-                          />
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 mt-5 pt-5 border-t border-white/[0.05]">
-              {exp.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 rounded-md text-xs font-medium bg-white/[0.04] text-gray-500 border border-white/[0.05]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {/* Tags with staggered entrance (only if tags exist) */}
+            {exp.tags && (
+              <div className={`flex flex-wrap gap-2 mt-5 pt-5 border-t border-border ${visible ? 'stagger-children' : ''}`}>
+                {exp.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 rounded-md text-xs font-medium bg-muted text-muted-foreground border border-border hover:border-accent/20 hover:text-accent hover:bg-accent/[0.04] transition-all duration-300 cursor-default"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Bottom accent */}
-          <div
-            className="h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{
-              background: `linear-gradient(to right, transparent, ${exp.color}, transparent)`,
-            }}
-          />
+          {/* Bottom accent line with shimmer */}
+          <div className="relative h-[2px] overflow-hidden">
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{ background: `linear-gradient(to right, transparent, ${exp.color}, transparent)` }}
+            />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shimmer" />
+          </div>
         </div>
       </div>
     </div>
@@ -202,16 +174,21 @@ const ExperienceCard = ({ exp, index }) => {
 };
 
 const Experience = () => {
+  const headRef = useRef(null);
+  const headVisible = useOnScreen(headRef);
+
   return (
     <section className="relative py-24 md:py-32">
-      <div className="absolute top-1/3 -left-32 w-[400px] h-[400px] rounded-full bg-accent-blue/[0.03] blur-[120px] pointer-events-none" />
-
       <div className="max-w-4xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase text-accent-blue glass mb-4">
+        <div ref={headRef} className="text-center mb-16">
+          <span
+            className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase text-accent bg-accent/[0.06] border border-accent/15 mb-4 ${
+              headVisible ? 'animate-scale-reveal' : 'opacity-0'
+            }`}
+          >
             Career Journey
           </span>
-          <h2 className="section-heading">
+          <h2 className={`section-heading ${headVisible ? 'animate-blur-reveal animate-delay-200' : 'opacity-0'}`}>
             Work <span className="gradient-text">Experience</span>
           </h2>
         </div>

@@ -7,7 +7,7 @@ const Loader = ({ onComplete }) => {
   useEffect(() => {
     let frame;
     let start = null;
-    const duration = 900;
+    const duration = 1100;
 
     const step = (timestamp) => {
       if (!start) start = timestamp;
@@ -23,7 +23,7 @@ const Loader = ({ onComplete }) => {
         setTimeout(() => {
           setPhase('done');
           onComplete();
-        }, 350);
+        }, 500);
       }
     };
 
@@ -33,28 +33,53 @@ const Loader = ({ onComplete }) => {
 
   if (phase === 'done') return null;
 
+  const letters = 'NC.dev'.split('');
+
   return (
     <div
-      className={`fixed inset-0 z-[9999] bg-navy-900 flex flex-col items-center justify-center transition-opacity duration-300 ${
-        phase === 'revealing' ? 'opacity-0' : 'opacity-100'
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-all duration-500 ${
+        phase === 'revealing' ? 'opacity-0 scale-105 blur-sm' : 'opacity-100 scale-100 blur-0'
       }`}
+      style={{
+        background: 'linear-gradient(-134deg, #002025 0%, #3f3251 98%)',
+      }}
     >
-      <div className="mb-8">
-        <span className="font-heading text-4xl font-bold">
-          <span className="gradient-text">NC</span>
-          <span className="text-gray-600">.dev</span>
-        </span>
+      {/* Morphing background blob */}
+      <div
+        className="absolute w-[300px] h-[300px] animate-morph opacity-[0.08]"
+        style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED, #818CF8)' }}
+      />
+
+      {/* Logo letters with stagger */}
+      <div className="mb-8 flex items-baseline">
+        {letters.map((letter, i) => (
+          <span
+            key={i}
+            className="font-heading text-4xl font-bold"
+            style={{
+              display: 'inline-block',
+              animation: `bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1) ${i * 80}ms forwards`,
+              opacity: 0,
+              color: i < 2 ? '#818CF8' : 'rgba(255,255,255,0.5)',
+            }}
+          >
+            {letter}
+          </span>
+        ))}
       </div>
 
-      <div className="w-48 h-[2px] bg-white/[0.06] rounded-full overflow-hidden">
+      {/* Progress bar */}
+      <div className="w-48 h-[3px] rounded-full overflow-hidden relative" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
         <div
-          className="h-full rounded-full"
+          className="h-full rounded-full relative overflow-hidden"
           style={{
             width: `${progress}%`,
-            background: 'linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6)',
-            transition: 'width 60ms linear',
+            background: 'linear-gradient(90deg, #4F46E5, #7C3AED, #818CF8)',
+            transition: 'width 80ms linear',
           }}
-        />
+        >
+          <div className="absolute inset-0 shimmer" />
+        </div>
       </div>
     </div>
   );

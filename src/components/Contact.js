@@ -8,6 +8,7 @@ import {
   FaExclamationCircle,
 } from 'react-icons/fa';
 import useOnScreen from '../useOnScreen';
+import { track } from '../telemetry/telemetry';
 
 const contactLinks = [
   { icon: FaEnvelope, label: 'Email', value: 'nandishchokshi02@gmail.com', href: 'mailto:nandishchokshi02@gmail.com', color: '#E11D48' },
@@ -47,6 +48,7 @@ function Contact() {
       });
       if (res.ok) {
         setStatus('success');
+        track('form_submit', { section: 'contact-form' });
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
         setStatus('error');
@@ -107,6 +109,7 @@ function Contact() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track={`contact-${link.label.toLowerCase()}`}
                 className={`group flex items-center gap-4 p-5 card card-hover ${
                   visible ? 'animate-slide-up-spring' : 'opacity-0'
                 }`}

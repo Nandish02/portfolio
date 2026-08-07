@@ -58,6 +58,7 @@ const Navbar = () => {
       >
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
           <button
+            data-track="nav-logo"
             onClick={() => scrollTo('home-section')}
             className="font-heading font-bold text-xl tracking-tight group relative"
           >
@@ -72,6 +73,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <li key={link.id}>
                 <button
+                  data-track={`nav-${link.label.toLowerCase()}`}
                   onClick={() => scrollTo(link.id)}
                   className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
                     activeSection === link.id
@@ -116,6 +118,7 @@ const Navbar = () => {
         {navLinks.map((link, i) => (
           <button
             key={link.id}
+            data-track={`nav-mobile-${link.label.toLowerCase()}`}
             onClick={() => scrollTo(link.id)}
             className={`text-3xl font-heading font-semibold py-4 transition-all duration-500 ${
               mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'

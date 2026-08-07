@@ -185,8 +185,8 @@ function Home() {
           }`}
         >
           {[
-            { href: 'https://www.nutanix.com', label: 'Ex-Software Engineer @ Nutanix', color: 'accent', delay: '400ms' },
-            { href: 'https://aiisc.ai', label: 'Former Research Intern @ AIISC', color: 'warm-violet', delay: '500ms' },
+            { href: 'https://www.nutanix.com', label: 'Ex-Software Engineer @ Nutanix', color: 'accent', delay: '400ms', track: 'tag-nutanix' },
+            { href: 'https://aiisc.ai', label: 'Former Research Intern @ AIISC', color: 'warm-violet', delay: '500ms', track: 'tag-aiisc' },
             { label: 'B.E. Computer Science, BITS Pilani', color: 'muted', delay: '600ms' },
           ].map((tag, i) => {
             const isLink = !!tag.href;
@@ -208,6 +208,7 @@ function Home() {
                     href={tag.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-track={tag.track}
                     className={`${classes} animate-slide-up-spring`}
                     style={animStyle}
                   >
@@ -237,9 +238,10 @@ function Home() {
         >
           <a
             ref={ctaRef}
-            href="https://drive.google.com/file/d/1MVz3KGzX82HHtQgXfrFgfAnE0H6gqm9g/view?usp=sharing"
+            href="https://drive.google.com/file/d/1v30ynBj6HviDkf5iVjJTeLrvEydsmYSv/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
+            data-track="resume"
             className="magnetic-btn group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white overflow-hidden"
             style={{
               boxShadow: '0 4px 24px -4px rgba(79, 70, 229, 0.4)',
@@ -257,6 +259,7 @@ function Home() {
             <FaArrowRight size={12} className="relative z-10 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
           </a>
           <button
+            data-track="hero-lets-talk"
             onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}
             className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold border-2 border-border text-foreground hover:border-accent/40 hover:bg-accent/[0.04] transition-all duration-500 hover:scale-105 hover:shadow-lg"
           >
@@ -275,6 +278,7 @@ function Home() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
+              data-track={`hero-social-${label.toLowerCase()}`}
               className={`w-11 h-11 rounded-xl border border-border bg-card flex items-center justify-center group animate-bounce-in hover:border-accent/30 hover:shadow-lg hover:scale-110 hover:-translate-y-1`}
               style={{
                 animationDelay: `${850 + i * 100}ms`,

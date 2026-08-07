@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import Loader from './Loader';
 import Navbar from './Navbar';
 import Home from './Home';
@@ -6,6 +6,27 @@ import Experience from './Experience';
 import Projects from './Projects';
 import Contact from './Contact';
 import Footer from './Footer';
+import useOnScreen from '../useOnScreen';
+import { trackSection } from '../telemetry/telemetry';
+
+const TrackedSection = ({ id, name, className, children }) => {
+  const ref = useRef(null);
+  const visible = useOnScreen(ref, { threshold: 0.35 });
+  const fired = useRef(false);
+
+  useEffect(() => {
+    if (visible && !fired.current) {
+      fired.current = true;
+      trackSection(name);
+    }
+  }, [visible, name]);
+
+  return (
+    <section ref={ref} id={id} className={className}>
+      {children}
+    </section>
+  );
+};
 
 const WaveDivider = ({ flip, color1 = '#4F46E5', color2 = '#7C3AED' }) => (
   <div className={`wave-divider ${flip ? 'rotate-180' : ''}`}>
@@ -48,27 +69,27 @@ function Portfolio() {
         <Navbar />
 
         <main className="relative">
-          <section id="home-section">
+          <TrackedSection id="home-section" name="home">
             <Home />
-          </section>
+          </TrackedSection>
 
           <WaveDivider />
 
-          <section id="experience-section" className="section-warm dot-pattern">
+          <TrackedSection id="experience-section" name="experience" className="section-warm dot-pattern">
             <Experience />
-          </section>
+          </TrackedSection>
 
           <WaveDivider flip color1="#7C3AED" color2="#E11D48" />
 
-          <section id="projects-section" className="section-rose">
+          <TrackedSection id="projects-section" name="projects" className="section-rose">
             <Projects />
-          </section>
+          </TrackedSection>
 
           <WaveDivider color1="#0284C7" color2="#4F46E5" />
 
-          <section id="contact-section" className="section-cool dot-pattern">
+          <TrackedSection id="contact-section" name="contact" className="section-cool dot-pattern">
             <Contact />
-          </section>
+          </TrackedSection>
         </main>
 
         <Footer />

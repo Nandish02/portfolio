@@ -1,5 +1,6 @@
 import React, { useRef, useCallback, useState } from 'react';
-import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaGithub, FaLock } from 'react-icons/fa';
+import { SiNutanix } from 'react-icons/si';
 import useOnScreen from '../useOnScreen';
 
 const BrainIllustration = () => (
@@ -146,7 +147,105 @@ const VAEIllustration = () => (
   </svg>
 );
 
+const QueryEngineIllustration = () => (
+  <svg viewBox="0 0 400 200" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="qGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#0D9488" stopOpacity="0.8" />
+        <stop offset="50%" stopColor="#0891B2" stopOpacity="0.6" />
+        <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
+      </linearGradient>
+      <filter id="glowQ">
+        <feGaussianBlur stdDeviation="2" result="cbQ" />
+        <feMerge><feMergeNode in="cbQ" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
+    </defs>
+
+    <text x="58" y="34" fill="#0D9488" fontSize="9" fontFamily="monospace" opacity="0.7" textAnchor="middle">plain english</text>
+    <text x="169" y="34" fill="#0891B2" fontSize="9" fontFamily="monospace" opacity="0.7" textAnchor="middle">schema grounding</text>
+    <text x="250" y="34" fill="#0D9488" fontSize="9" fontFamily="monospace" opacity="0.7" textAnchor="middle">GRPO reward</text>
+    <text x="341" y="34" fill="#10B981" fontSize="9" fontFamily="monospace" opacity="0.7" textAnchor="middle">valid query</text>
+
+    {/* Stage 1 — natural-language prompt */}
+    <rect x="18" y="58" width="82" height="60" rx="10" fill="none" stroke="url(#qGrad)" strokeWidth="1.5" opacity="0.85" />
+    <path d="M30 118 l0 11 l13 -11 z" fill="#0D9488" opacity="0.45" />
+    <rect x="30" y="70" width="58" height="5" rx="2.5" fill="#0D9488" opacity="0.55" />
+    <rect x="30" y="82" width="44" height="5" rx="2.5" fill="#0D9488" opacity="0.4" />
+    <rect x="30" y="94" width="52" height="5" rx="2.5" fill="#0D9488" opacity="0.35" />
+    <rect x="30" y="105" width="6" height="7" fill="#0D9488" opacity="0.8">
+      <animate attributeName="opacity" values="0.2;0.9;0.2" dur="1.1s" repeatCount="indefinite" />
+    </rect>
+
+    <line x1="102" y1="88" x2="132" y2="88" stroke="url(#qGrad)" strokeWidth="1" opacity="0.5" strokeDasharray="4 3">
+      <animate attributeName="stroke-dashoffset" values="0;-14" dur="1.6s" repeatCount="indefinite" />
+    </line>
+
+    {/* Stage 2 — schema grounding / retrieval */}
+    <rect x="152" y="62" width="44" height="54" rx="6" fill="none" stroke="#0891B2" strokeWidth="1.2" opacity="0.25" />
+    <rect x="148" y="66" width="44" height="54" rx="6" fill="none" stroke="#0891B2" strokeWidth="1.2" opacity="0.45" />
+    <rect x="144" y="70" width="44" height="54" rx="6" fill="#0891B2" fillOpacity="0.06" stroke="#0891B2" strokeWidth="1.4" opacity="0.85" />
+    {[80, 90, 100, 110].map((y, i) => (
+      <rect key={`sl-${i}`} x="152" y={y} width={i % 2 ? 22 : 30} height="4" rx="2" fill="#0891B2" opacity="0.4" />
+    ))}
+    {[[200, 68], [206, 82], [199, 100], [208, 114], [196, 122]].map(([x, y], i) => (
+      <circle key={`vd-${i}`} cx={x} cy={y} r="2.5" fill="#0891B2" opacity="0.5" filter="url(#glowQ)">
+        <animate attributeName="opacity" values="0.2;0.6;0.2" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
+      </circle>
+    ))}
+
+    <line x1="212" y1="94" x2="230" y2="94" stroke="url(#qGrad)" strokeWidth="1" opacity="0.5" strokeDasharray="4 3">
+      <animate attributeName="stroke-dashoffset" values="0;-14" dur="1.6s" repeatCount="indefinite" />
+    </line>
+
+    {/* Stage 3 — GRPO reward target */}
+    <circle cx="250" cy="94" r="19" fill="none" stroke="#0D9488" strokeWidth="1.2" opacity="0.25" />
+    <circle cx="250" cy="94" r="12" fill="none" stroke="#0D9488" strokeWidth="1.2" opacity="0.45" />
+    <circle cx="250" cy="94" r="4" fill="#0D9488" opacity="0.85" filter="url(#glowQ)">
+      <animate attributeName="r" values="3;5.5;3" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="250" cy="94" r="19" fill="none" stroke="#0D9488" strokeWidth="1" opacity="0.3">
+      <animate attributeName="r" values="8;22;8" dur="2.6s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.4;0;0.4" dur="2.6s" repeatCount="indefinite" />
+    </circle>
+
+    <line x1="272" y1="94" x2="292" y2="94" stroke="url(#qGrad)" strokeWidth="1" opacity="0.5" strokeDasharray="4 3">
+      <animate attributeName="stroke-dashoffset" values="0;-14" dur="1.6s" repeatCount="indefinite" />
+    </line>
+
+    {/* Stage 4 — deterministic, validated query output */}
+    <rect x="296" y="58" width="88" height="60" rx="8" fill="#10B981" fillOpacity="0.05" stroke="url(#qGrad)" strokeWidth="1.5" opacity="0.9" />
+    <text x="306" y="82" fill="#10B981" fontSize="15" fontFamily="monospace" opacity="0.65">{'{'}</text>
+    <rect x="318" y="72" width="30" height="4" rx="2" fill="#10B981" opacity="0.45" />
+    <rect x="318" y="82" width="40" height="4" rx="2" fill="#10B981" opacity="0.4" />
+    <rect x="318" y="92" width="26" height="4" rx="2" fill="#10B981" opacity="0.45" />
+    <text x="306" y="112" fill="#10B981" fontSize="15" fontFamily="monospace" opacity="0.65">{'}'}</text>
+    <path
+      d="M352 102 l6 6 l14 -15"
+      fill="none"
+      stroke="#10B981"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      opacity="0.95"
+      strokeDasharray="34"
+      strokeDashoffset="34"
+    >
+      <animate attributeName="stroke-dashoffset" values="34;34;0;0" keyTimes="0;0.3;0.7;1" dur="3s" repeatCount="indefinite" />
+    </path>
+  </svg>
+);
+
 const projects = [
+  {
+    title: 'Query Copilot: Natural-Language Query Engine',
+    description:
+      'An AI copilot for a large-scale distributed database system that tracks millions of infrastructure entities like VMs, hosts and disks along with their live metrics. It turns plain-English questions into schema-valid queries and runnable code, using a LoRA fine-tuned, GRPO reward-tuned model grounded on the live schema, with field-level validation and a retrieval-augmented docs knowledge base.',
+    illustration: QueryEngineIllustration,
+    tags: ['LLM', 'LoRA Fine-Tuning', 'GRPO', 'RAG', 'Schema Grounding', 'Query Generation'],
+    company: 'Nutanix',
+    badge: 'Enterprise',
+    color: '#0D9488',
+  },
   {
     title: 'Brain-LLM: Neural Activation Mapping',
     description: 'Leveraged transformer-based language models to generate semantic embeddings for neural mapping. Analyzed contributions of 12 hidden layers within deep networks to predict fMRI brain activity across four distinct narrative stimuli with 3D visualization of activation patterns.',
@@ -219,24 +318,46 @@ const ProjectCard = ({ project, index }) => {
           style={{ background: `radial-gradient(circle at 50% 50%, ${project.color}08, transparent 70%)` }}
         />
 
-        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-10 h-10 rounded-lg bg-card/90 backdrop-blur-sm border border-border shadow-sm flex items-center justify-center hover:bg-card hover:scale-110 transition-all duration-300"
-          >
-            <FaGithub size={16} className="text-foreground" />
-          </a>
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-10 h-10 rounded-lg bg-card/90 backdrop-blur-sm border border-border shadow-sm flex items-center justify-center hover:bg-card hover:scale-110 transition-all duration-300"
-          >
-            <FaExternalLinkAlt size={14} className="text-foreground" />
-          </a>
-        </div>
+        {(project.company || project.badge) && (
+          <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            <span
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-card/90 backdrop-blur-sm border shadow-sm"
+              style={{ borderColor: `${project.color}30`, color: project.color }}
+            >
+              {project.company === 'Nutanix' && <SiNutanix size={11} style={{ color: '#024DA1' }} />}
+              {[project.company, project.badge].filter(Boolean).join(' \u00b7 ')}
+            </span>
+          </div>
+        )}
+
+        {project.github ? (
+          <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track={`project-github-${project.title}`}
+              className="w-10 h-10 rounded-lg bg-card/90 backdrop-blur-sm border border-border shadow-sm flex items-center justify-center hover:bg-card hover:scale-110 transition-all duration-300"
+            >
+              <FaGithub size={16} className="text-foreground" />
+            </a>
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track={`project-open-${project.title}`}
+              className="w-10 h-10 rounded-lg bg-card/90 backdrop-blur-sm border border-border shadow-sm flex items-center justify-center hover:bg-card hover:scale-110 transition-all duration-300"
+            >
+              <FaExternalLinkAlt size={14} className="text-foreground" />
+            </a>
+          </div>
+        ) : (
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium bg-card/90 backdrop-blur-sm border border-border shadow-sm text-muted-foreground">
+              <FaLock size={10} /> Private repo
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -282,7 +403,7 @@ function Projects() {
 
   return (
     <section className="relative py-24 md:py-32">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <div ref={headRef} className="text-center mb-16">
           <span
             className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase text-warm-violet bg-warm-violet/[0.06] border border-warm-violet/15 mb-4 ${
@@ -299,7 +420,7 @@ function Projects() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {projects.map((project, i) => (
             <ProjectCard key={project.title} project={project} index={i} />
           ))}

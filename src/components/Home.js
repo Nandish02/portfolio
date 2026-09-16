@@ -238,7 +238,7 @@ function Home() {
         >
           <a
             ref={ctaRef}
-            href="https://drive.google.com/file/d/1G3lMuvdWeLv2kxlg42uX5dhjTED1Z8eN/view?usp=sharing"
+            href="https://drive.google.com/file/d/1WJnYJ409HSzkqtiRjOaaSm7IW4yjEZmj/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             data-track="resume"
